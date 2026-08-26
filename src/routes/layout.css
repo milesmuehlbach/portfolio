@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap');
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+@theme {
+	--font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+}
+
+:root,
+html,
+body {
+	font-family: var(--font-sans);
+	background: #000;
+}
+
+@keyframes content-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes kenburns {
+	from {
+		transform: scale(1);
+	}
+	to {
+		transform: scale(1.06);
+	}
+}
+
+.site-panel {
+	width: 100%;
+}
+
+@media (min-width: 40rem) {
+	.site-panel {
+		width: 380px;
+	}
+
+	.site-panel-expanded {
+		width: min(640px, calc(100vw - 10rem));
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.animate-content-in {
+		animation: content-in 0.4s ease-out 0.08s both;
+	}
+
+	.animate-kenburns {
+		animation: kenburns 24s ease-in-out infinite alternate;
+	}
+
+	.site-panel {
+		transition: width 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+}

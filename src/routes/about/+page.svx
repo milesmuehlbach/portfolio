@@ -1,0 +1,27 @@
+---
+title: 'About - Miles Muehlbach'
+description: 'about me'
+path: '/about'
+---
+
+# about
+
+I'm Miles Muehlbach, a high school student that enjoys building full stack applications.
+
+## What I do
+
+I'm a full stack developer that works in a variety of frameworks and languages:
+
+- Svelte/SvelteKit
+- Tailwind CSS
+- React/React Native
+- Tauri
+- Java/Kotlin
+- JavaScript/TypeScript
+- Python FastAPI
+- PostgreSQL
+- C/C++
+
+## learn more
+
+you can reach out and see my links at [contact me](/contact), or check out my [projects](/projects) or my [blog](/blog).

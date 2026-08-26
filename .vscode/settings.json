@@ -1,0 +1,10 @@
+{
+	"files.associations": {
+		"*.css": "tailwindcss"
+	},
+	// mdsvex files are markdown with Svelte mixed in. Prettier formats them with
+	// the markdown parser (see prettier.config.js), so match that in the editor.
+	"[svx]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	}
+}

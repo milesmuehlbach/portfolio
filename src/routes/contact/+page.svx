@@ -1,0 +1,20 @@
+<script lang="ts">
+	import Icon from '@iconify/svelte';
+</script>
+
+# contact
+
+<div class="contact-links">
+	<a class="inline-icon-link" href="mailto:miles@milesmuehlbach.com">
+		<Icon icon="mdi:email" />
+		<span>miles@milesmuehlbach.com</span>
+	</a>
+	<a class="inline-icon-link" href="https://github.com/milesmuehlbach">
+		<Icon icon="mdi:github" />
+		<span>milesmuehlbach</span>
+	</a>
+	<a class="inline-icon-link" href="https://www.linkedin.com/in/miles-muehlbach-48679b307/">
+		<Icon icon="mdi:linkedin" />
+		<span>Miles Muehlbach</span>
+	</a>
+</div>
