@@ -1,61 +1,164 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
+/* The `wdth` builds carry both the weight and width axes. Width is part of
+   the type system: expanded for display, normal for text. */
+@import '@fontsource-variable/archivo/wdth.css';
+@import '@fontsource-variable/martian-mono/wdth.css';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
+/* Every color is sampled from src/lib/assets/skyline.jpg: the page is the sky
+   above the skyline and the footer is the river below it. */
 @theme {
-	--font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+	--font-sans: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif;
+	--font-mono: 'Martian Mono Variable', ui-monospace, monospace;
+
+	--color-dusk: #4b8cb5; /* sky, the page ground */
+	--color-night: #07131d; /* ink for all text on dusk */
+	--color-cloud: #fffdf8; /* display type on dusk, text on river */
+	--color-river: #1c2024; /* water, the footer ground */
+	--color-mist: #b9c4ce; /* secondary text on river */
 }
 
-:root,
-html,
-body {
-	font-family: var(--font-sans);
-	background: #000;
+@layer base {
+	html {
+		/* Overscroll shows sky above the page and water below it. */
+		background: linear-gradient(var(--color-dusk) 50%, var(--color-river) 50%);
+		color: var(--color-night);
+		font-family: var(--font-sans);
+		font-weight: 430;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-rendering: optimizeLegibility;
+	}
+
+	body {
+		background: var(--color-dusk);
+	}
+
+	::selection {
+		background: var(--color-night);
+		color: var(--color-cloud);
+	}
+
+	:focus-visible {
+		outline: 2px solid currentColor;
+		outline-offset: 3px;
+	}
 }
 
-@keyframes content-in {
+/* Rendered markdown for projects and posts. */
+.prose-dusk {
+	--tw-prose-body: var(--color-night);
+	--tw-prose-headings: var(--color-night);
+	--tw-prose-lead: var(--color-night);
+	--tw-prose-links: var(--color-night);
+	--tw-prose-bold: var(--color-night);
+	--tw-prose-counters: var(--color-night);
+	--tw-prose-bullets: color-mix(in oklab, var(--color-night) 60%, transparent);
+	--tw-prose-hr: color-mix(in oklab, var(--color-night) 25%, transparent);
+	--tw-prose-quotes: var(--color-night);
+	--tw-prose-quote-borders: var(--color-night);
+	--tw-prose-captions: var(--color-night);
+	--tw-prose-kbd: var(--color-night);
+	--tw-prose-code: var(--color-night);
+	--tw-prose-pre-code: #e4eaef;
+	--tw-prose-pre-bg: var(--color-river);
+	--tw-prose-th-borders: color-mix(in oklab, var(--color-night) 40%, transparent);
+	--tw-prose-td-borders: color-mix(in oklab, var(--color-night) 20%, transparent);
+	font-size: 1.0625rem;
+	line-height: 1.7;
+
+	& :where(h2, h3, h4):not(:where(.not-prose *)) {
+		font-stretch: 112.5%;
+		font-weight: 650;
+		letter-spacing: -0.01em;
+	}
+
+	& :where(a):not(:where(.not-prose *)) {
+		font-weight: inherit;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.2em;
+
+		&:hover {
+			text-decoration-thickness: 2px;
+		}
+	}
+
+	& :where(code):not(:where(pre *, .not-prose *)) {
+		padding: 0.1em 0.35em;
+		border-radius: 3px;
+		background: color-mix(in oklab, var(--color-night) 12%, transparent);
+		font-size: 0.85em;
+		font-weight: 450;
+
+		&::before,
+		&::after {
+			content: none;
+		}
+	}
+
+	& :where(pre):not(:where(.not-prose *)) {
+		border-radius: 4px;
+		font-size: 0.8125rem;
+		line-height: 1.7;
+	}
+
+	/* Prism tokens (mdsvex highlights fenced code at build time). */
+	& .token:is(.comment, .prolog, .doctype, .cdata) {
+		color: #8a98a5;
+	}
+	& .token:is(.keyword, .atrule, .selector, .tag, .important) {
+		color: #9cc7e8;
+	}
+	& .token:is(.string, .char, .attr-value, .number, .boolean, .regex) {
+		color: #eac58c;
+	}
+	& .token:is(.function, .class-name, .attr-name, .property) {
+		color: #ffffff;
+	}
+	& .token:is(.punctuation, .operator) {
+		color: #a3b0bc;
+	}
+}
+
+@keyframes fade-in {
 	from {
 		opacity: 0;
 	}
-	to {
-		opacity: 1;
-	}
 }
 
-@keyframes kenburns {
+/* Dusk to evening: the skyline starts dim and its windows come up. */
+@keyframes lights-on {
 	from {
-		transform: scale(1);
-	}
-	to {
-		transform: scale(1.06);
+		filter: brightness(0.45) saturate(0.55);
 	}
 }
 
-.site-panel {
-	width: 100%;
-}
-
-@media (min-width: 40rem) {
-	.site-panel {
-		width: 380px;
-	}
-
-	.site-panel-expanded {
-		width: min(640px, calc(100vw - 10rem));
-	}
+/* Crossfade between pages. Browsers without cross-document view transitions
+   navigate normally. */
+@view-transition {
+	navigation: auto;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.animate-content-in {
-		animation: content-in 0.4s ease-out 0.08s both;
+	.animate-fade-in {
+		animation: fade-in 0.6s ease-out both;
 	}
 
-	.animate-kenburns {
-		animation: kenburns 24s ease-in-out infinite alternate;
+	.animate-lights-on {
+		animation: lights-on 2.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 	}
 
-	.site-panel {
-		transition: width 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+	::view-transition-old(root),
+	::view-transition-new(root) {
+		animation-duration: 220ms;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-group(*),
+	::view-transition-old(*),
+	::view-transition-new(*) {
+		animation: none !important;
 	}
 }

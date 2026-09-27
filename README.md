@@ -1,42 +1,31 @@
-# sv
+# milesmuehlbach.com
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
+My portfolio. SvelteKit, prerendered to static HTML with no client JavaScript, deployed on Cloudflare.
 
 ```sh
-# create a new project
-npx sv create my-app
+bun install
+bun run dev      # http://localhost:5173
+bun run build    # prerender everything into .svelte-kit/cloudflare
+bun run check && bun run lint
 ```
 
-To recreate this project with the same configuration:
+## Adding a project
 
-```sh
-# recreate this project
-bun x sv@0.17.0 create --template minimal --types ts --add prettier eslint tailwindcss="plugins:typography,forms" sveltekit-adapter="adapter:node" mdsvex ai-tools="ide:claude-code,other+delivery:plugin" --install bun portfolio
-```
+1. Copy `src/content/projects/_template/` to `src/content/projects/<slug>/`. The folder name becomes the URL (`/projects/<slug>`).
+2. Fill in the frontmatter in `index.md` and write the page in Markdown below it.
+3. Optionally add `cover.png` (or `.jpg`, `.webp`, `.avif`) next to it, plus a `coverAlt` line. It's shown on the page and used as the social preview image.
+4. Run `bun run dev` to preview. `draft: true` keeps it out of the build until it's ready.
 
-## Developing
+The project list, its page, the sitemap, and the structured data update automatically. If a required field is missing or malformed, the build fails and names the file.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Blog posts work the same way in `src/content/posts/`. The Blog link appears in the navigation once the first post is published.
 
-```sh
-npm run dev
+## Where things live
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+| Change                              | File                                |
+| ----------------------------------- | ----------------------------------- |
+| Name, email, social links, site URL | `src/lib/site.ts`                   |
+| About page, contact page            | `src/routes/(pages)/*/+page.svelte` |
+| Colors and fonts                    | `src/routes/layout.css`             |
+| Frontmatter fields and validation   | `src/lib/content.ts`                |
+| Default share image                 | `static/og.png`                     |

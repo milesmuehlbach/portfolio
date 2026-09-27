@@ -4,9 +4,15 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="text-scale" content="scale" />
+		<meta name="theme-color" content="#4b8cb5" />
+		<meta name="color-scheme" content="light" />
+		<!-- Fetch a page as soon as someone hovers or focuses a link to it. -->
+		<script type="speculationrules">
+			{ "prefetch": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }
+		</script>
 		%sveltekit.head%
 	</head>
-	<body data-sveltekit-preload-data="hover">
+	<body>
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
 </html>
