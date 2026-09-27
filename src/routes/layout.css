@@ -17,18 +17,26 @@
 	--color-cloud: #fffdf8; /* display type on dusk, text on river */
 	--color-river: #1c2024; /* water, the footer ground */
 	--color-mist: #b9c4ce; /* secondary text on river */
+
+	--ease-out-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 @layer base {
 	html {
-		/* Overscroll shows sky above the page and water below it. */
-		background: linear-gradient(var(--color-dusk) 50%, var(--color-river) 50%);
+		/* Past either end of the page, browsers paint the root background
+		   *color* (never an image), and the scrollbar track sits on it too. The
+		   `ground` animation below turns both from sky to water as the page
+		   scrolls, so overscroll shows sky above the page and river below it. */
+		background-color: var(--color-dusk);
+		scrollbar-color: var(--scroll-thumb) var(--color-dusk);
+		scrollbar-width: thin;
 		color: var(--color-night);
 		font-family: var(--font-sans);
 		font-weight: 430;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		text-rendering: optimizeLegibility;
+		--scroll-thumb: color-mix(in oklab, var(--color-night) 40%, transparent);
 	}
 
 	body {
@@ -121,9 +129,36 @@
 	}
 }
 
+/* Links: an underline that draws in from the left on hover and stays drawn on
+   the current page. Put `ink` on the text itself (an inline element) so the
+   line follows wrapped text; inside a `.group` it also draws on hover of the
+   group. */
+@layer components {
+	.ink {
+		background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 var(--ink, 2px);
+		padding-bottom: 0.12em;
+		-webkit-box-decoration-break: clone;
+		box-decoration-break: clone;
+		transition: background-size 0.45s var(--ease-out-soft);
+
+		&:hover,
+		:where(.group):is(:hover, :focus-visible) &,
+		&[aria-current='page'] {
+			background-size: 100% var(--ink, 2px);
+		}
+	}
+}
+
 @keyframes fade-in {
 	from {
 		opacity: 0;
+	}
+}
+
+@keyframes rise {
+	from {
+		opacity: 0;
+		translate: 0 0.6em;
 	}
 }
 
@@ -131,27 +166,107 @@
 @keyframes lights-on {
 	from {
 		filter: brightness(0.45) saturate(0.55);
+		scale: 1.06;
 	}
 }
 
-/* Crossfade between pages. Browsers without cross-document view transitions
-   navigate normally. */
+@keyframes ground {
+	0%,
+	60% {
+		background-color: var(--color-dusk);
+		scrollbar-color: var(--scroll-thumb) var(--color-dusk);
+	}
+	100% {
+		background-color: var(--color-river);
+		scrollbar-color: color-mix(in oklab, var(--color-mist) 45%, transparent) var(--color-river);
+	}
+}
+
+@keyframes reveal {
+	from {
+		opacity: 0;
+		translate: 0 2.5rem;
+	}
+}
+
+/* Home: the name rises into the sky from behind the city. */
+@keyframes emerge {
+	from {
+		opacity: 0;
+		translate: 0 0.4em;
+	}
+	40% {
+		opacity: 1;
+	}
+}
+
+@supports (animation-timeline: scroll()) {
+	html {
+		animation: ground linear both;
+		animation-timeline: scroll(root);
+	}
+}
+
+/* Crossfade between pages. The site name and nav are named so they glide to
+   their new place instead of fading (from the home hero into the header).
+   Browsers without cross-document view transitions navigate normally. */
 @view-transition {
 	navigation: auto;
 }
 
 @media (prefers-reduced-motion: no-preference) {
+	html {
+		scroll-behavior: smooth;
+	}
+
+	/* Entrances. Longhands, not the `animation` shorthand, so a per-element
+	   `[animation-delay:…]` utility can stagger them. */
+	.animate-fade-in,
+	.animate-rise,
+	.animate-emerge,
+	.animate-lights-on {
+		animation-timing-function: var(--ease-out-soft);
+		animation-fill-mode: both;
+	}
+
 	.animate-fade-in {
-		animation: fade-in 0.6s ease-out both;
+		animation-name: fade-in;
+		animation-duration: 0.8s;
+	}
+
+	.animate-rise {
+		animation-name: rise;
+		animation-duration: 0.9s;
+	}
+
+	.animate-emerge {
+		animation-name: emerge;
+		animation-duration: 1.6s;
 	}
 
 	.animate-lights-on {
-		animation: lights-on 2.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+		animation-name: lights-on;
+		animation-duration: 2.4s;
+	}
+
+	@supports (animation-timeline: view()) {
+		/* Rises into place as it scrolls into view. Anything already on screen
+		   at load is past its range, so it renders in place. */
+		.reveal {
+			animation: reveal linear both;
+			animation-timeline: view();
+			animation-range: entry 5% entry 85%;
+		}
+	}
+
+	::view-transition-group(*) {
+		animation-duration: 0.55s;
+		animation-timing-function: var(--ease-out-soft);
 	}
 
 	::view-transition-old(root),
 	::view-transition-new(root) {
-		animation-duration: 220ms;
+		animation-duration: 0.25s;
 	}
 }
 

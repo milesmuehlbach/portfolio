@@ -38,12 +38,12 @@
 />
 
 <article>
-	<a
-		href={resolve('/blog')}
-		class="mb-10 inline-flex items-center gap-2 font-mono text-xs underline-offset-4 hover:underline"
-	>
-		<ArrowLeft class="size-3.5" aria-hidden="true" />
-		All posts
+	<a href={resolve('/blog')} class="group mb-10 inline-flex items-center gap-2 font-mono text-xs">
+		<ArrowLeft
+			class="size-3.5 transition-transform duration-300 ease-out-soft group-hover:-translate-x-1"
+			aria-hidden="true"
+		/>
+		<span class="ink [--ink:1px]">All posts</span>
 	</a>
 
 	<PageTitle title={post.title}>

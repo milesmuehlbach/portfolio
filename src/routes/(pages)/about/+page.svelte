@@ -46,10 +46,12 @@
 </PageTitle>
 
 <section aria-labelledby="toolkit" class="mt-20 max-w-3xl">
-	<h2 id="toolkit" class="text-2xl font-semibold font-stretch-semi-expanded">What I work with</h2>
+	<h2 id="toolkit" class="reveal text-2xl font-semibold font-stretch-semi-expanded">
+		What I work with
+	</h2>
 	<div class="mt-6 grid gap-10 sm:grid-cols-2">
 		{#each toolkit as group (group.heading)}
-			<div>
+			<div class="reveal">
 				<h3 class="border-b border-night/25 pb-2 font-mono text-xs">{group.heading}</h3>
 				<ul class="mt-3 columns-2 gap-6 text-lg leading-[1.9] sm:columns-1">
 					{#each group.items as item (item)}
@@ -61,7 +63,7 @@
 	</div>
 </section>
 
-<p class="mt-20 max-w-xl text-lg">
+<p class="reveal mt-20 max-w-xl text-lg">
 	See what I've built on the <a
 		href={resolve('/projects')}
 		class="underline decoration-1 underline-offset-4 hover:decoration-2">projects page</a

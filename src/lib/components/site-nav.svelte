@@ -20,14 +20,15 @@
 	}
 </script>
 
-<nav aria-label="Main" {...attributes} class={className}>
+<!-- Named for view transitions, so it glides between the home hero and the header. -->
+<nav aria-label="Main" {...attributes} class={['[view-transition-name:site-nav]', className]}>
 	<ul class="flex flex-wrap gap-x-6 gap-y-2">
 		{#each items as item (item.path)}
 			<li>
 				<a
 					href={resolve(item.path)}
 					aria-current={isCurrent(item.path) ? 'page' : undefined}
-					class="font-semibold font-stretch-semi-expanded decoration-2 underline-offset-[0.35em] hover:underline aria-[current=page]:underline"
+					class="ink font-semibold font-stretch-semi-expanded"
 				>
 					{item.label}
 				</a>

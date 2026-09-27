@@ -6,13 +6,19 @@ export const SITE_DESCRIPTION =
 export const EMAIL = 'miles@milesmuehlbach.com';
 
 export const PROFILES = [
-	{ label: 'GitHub', handle: '@milesmuehlbach', href: 'https://github.com/milesmuehlbach' },
+	{
+		label: 'GitHub',
+		icon: 'github',
+		handle: '@milesmuehlbach',
+		href: 'https://github.com/milesmuehlbach'
+	},
 	{
 		label: 'LinkedIn',
+		icon: 'linkedin',
 		handle: 'Miles Muehlbach',
 		href: 'https://www.linkedin.com/in/miles-muehlbach-48679b307/'
 	}
-];
+] satisfies { label: string; icon: 'github' | 'linkedin'; handle: string; href: string }[];
 
 /** Default social preview image, served from `static/`. */
 export const OG_IMAGE = { src: '/og.png', width: 1200, height: 630 };

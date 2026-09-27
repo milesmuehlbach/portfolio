@@ -46,10 +46,13 @@
 <article>
 	<a
 		href={resolve('/projects')}
-		class="mb-10 inline-flex items-center gap-2 font-mono text-xs underline-offset-4 hover:underline"
+		class="group mb-10 inline-flex items-center gap-2 font-mono text-xs"
 	>
-		<ArrowLeft class="size-3.5" aria-hidden="true" />
-		All projects
+		<ArrowLeft
+			class="size-3.5 transition-transform duration-300 ease-out-soft group-hover:-translate-x-1"
+			aria-hidden="true"
+		/>
+		<span class="ink [--ink:1px]">All projects</span>
 	</a>
 
 	<PageTitle title={project.title}>
@@ -57,7 +60,7 @@
 	</PageTitle>
 
 	<dl
-		class="mt-12 grid max-w-3xl grid-cols-[6rem_1fr] gap-x-6 gap-y-4 border-t border-night/25 pt-5 sm:grid-cols-[8rem_1fr]"
+		class="reveal mt-12 grid max-w-3xl grid-cols-[6rem_1fr] gap-x-6 gap-y-4 border-t border-night/25 pt-5 sm:grid-cols-[8rem_1fr]"
 	>
 		<dt class="pt-1 font-mono text-xs">Shipped</dt>
 		<dd><time datetime={project.date}>{formatDate(project.date, 'month')}</time></dd>
@@ -86,7 +89,7 @@
 			src={project.cover}
 			alt={project.coverAlt}
 			sizes="(min-width: 64rem) 56rem, 100vw"
-			class="mt-12 h-auto w-full max-w-4xl rounded-sm"
+			class="reveal mt-12 h-auto w-full max-w-4xl rounded-sm"
 		/>
 	{/if}
 

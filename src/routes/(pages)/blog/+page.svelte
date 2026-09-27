@@ -23,7 +23,7 @@
 {#if data.posts.length}
 	<ol class="mt-16 max-w-4xl border-t border-night/25">
 		{#each data.posts as post (post.slug)}
-			<li class="border-b border-night/25">
+			<li class="reveal border-b border-night/25">
 				<a
 					href={resolve(`/blog/${post.slug}`)}
 					class="group grid gap-x-10 gap-y-2 py-7 sm:grid-cols-[8rem_1fr]"
@@ -34,9 +34,9 @@
 					</p>
 					<div>
 						<h2
-							class="text-[clamp(1.375rem,2.6vw,1.875rem)] leading-tight font-semibold font-stretch-semi-expanded underline-offset-[0.15em] group-hover:underline"
+							class="text-[clamp(1.375rem,2.6vw,1.875rem)] leading-tight font-semibold font-stretch-semi-expanded"
 						>
-							{post.title}
+							<span class="ink [--ink:0.06em]">{post.title}</span>
 						</h2>
 						<p class="mt-2 max-w-xl text-lg text-pretty">{post.summary}</p>
 					</div>

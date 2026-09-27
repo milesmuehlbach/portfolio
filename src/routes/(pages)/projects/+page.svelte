@@ -21,16 +21,16 @@
 {#if data.projects.length}
 	<ol class="mt-16 max-w-4xl border-t border-night/25">
 		{#each data.projects as project (project.slug)}
-			<li class="border-b border-night/25">
+			<li class="reveal border-b border-night/25">
 				<a
 					href={resolve(`/projects/${project.slug}`)}
 					class="group grid gap-x-10 gap-y-4 py-8 sm:grid-cols-[1fr_auto]"
 				>
 					<div>
 						<h2
-							class="text-[clamp(1.5rem,3vw,2.25rem)] leading-tight font-semibold font-stretch-semi-expanded underline-offset-[0.15em] group-hover:underline"
+							class="text-[clamp(1.5rem,3vw,2.25rem)] leading-tight font-semibold font-stretch-semi-expanded"
 						>
-							{project.title}
+							<span class="ink [--ink:0.06em]">{project.title}</span>
 						</h2>
 						<p class="mt-2 max-w-xl text-lg text-pretty">{project.summary}</p>
 						{#if project.stack.length}
